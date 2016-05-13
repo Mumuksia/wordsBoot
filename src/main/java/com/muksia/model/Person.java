@@ -3,10 +3,13 @@ package com.muksia.model;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
 import org.bson.Document;
+import org.springframework.data.annotation.Id;
 
 /**
  *
@@ -15,6 +18,9 @@ import org.bson.Document;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
 public class Person {
+
+    @Id
+    private String id;
     
     final private String name;
     

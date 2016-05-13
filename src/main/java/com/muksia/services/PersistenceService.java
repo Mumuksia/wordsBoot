@@ -1,17 +1,13 @@
 package com.muksia.services;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.muksia.model.Person;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.muksia.model.Person;
+import com.muksia.repository.PersonRepository;
 
 /**
  *
@@ -21,17 +17,17 @@ import java.util.Optional;
 public class PersistenceService {
     
     @Autowired
-    private ConnectorService connectorService;
+    private PersonRepository personRepository;
     
     public List<Person> getAllPersons(){
-        return new ArrayList<>();
+        return personRepository.findAll();
     }
 
     public Optional<Person> gerPerson(final String name){
-        return Optional.empty();
+        return Optional.of(personRepository.findByName(name));
     }
     
     public void updatePerson(final Person p) {
-        connectorService.getMongoClient().insertOne(p.createDocument());
+        personRepository.save(p);
     }
 }

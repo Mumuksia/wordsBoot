@@ -4,14 +4,11 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import java.net.UnknownHostException;
-import org.springframework.stereotype.Service;
 
 /**
  *
  * @author yurzav
  */
-@Service
 public class ConnectorService {
 
     public MongoCollection getMongoClient() {
