@@ -43,6 +43,8 @@ dependencies {
     compile('org.easymock:easymock:3.4')
     compile('javax.json:javax.json-api:1.0')
     compile('org.mongodb:bson:3.2.2')
+    compile group: 'org.glassfish', name: 'javax.json', version: '1.0.4'
+
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

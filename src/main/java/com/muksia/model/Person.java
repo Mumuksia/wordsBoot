@@ -2,13 +2,11 @@ package com.muksia.model;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.bson.Document;
 import org.springframework.data.annotation.Id;
 
 /**
@@ -46,18 +44,6 @@ public class Person {
         return words;
     }
     
-    public Document createDocument() {
-        return new Document("person",
-                new Document()
-                        .append("name", getName())
-                        .append("comment", getComment())
-                        .append("words", getWordDocuments()));        
-    }
-    
-    private List<Document> getWordDocuments(){
-        return words.stream().map(p->p.createDocument()).collect(Collectors.toList());
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;

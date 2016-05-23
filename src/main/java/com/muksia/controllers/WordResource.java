@@ -1,14 +1,15 @@
 package com.muksia.controllers;
 
-import com.muksia.services.DictionaryService;
+import javax.json.Json;
+import javax.json.JsonObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.json.Json;
-import javax.json.JsonObject;
+import com.muksia.services.DictionaryService;
 
 /**
  *
@@ -27,7 +28,7 @@ public class WordResource {
     }
     
 
-    @RequestMapping(method =RequestMethod.POST, path = "/words/{person}/{word}/{translation}")
+    @RequestMapping(method =RequestMethod.GET, path = "/words/{person}/{word}/{translation}")
     public JsonObject addWord(@PathVariable("word") String word, @PathVariable("translation") String translation, @PathVariable("person") String person){
         dictionaryService.addWord(word, translation, person);
         return Json.createObjectBuilder().add(dictionaryService.getRandomWordForPerson(person).get().getValue(),  2).build();
