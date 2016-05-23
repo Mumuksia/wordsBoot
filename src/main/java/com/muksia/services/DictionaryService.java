@@ -3,6 +3,7 @@ package com.muksia.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,9 @@ public class DictionaryService {
 
     public Optional<Word> getRandomWordForPerson(final String personName) {
 
-        final List<Word> wordList = persistenceService.getAllWords();
+        final List<Word> wordList = persistenceService.getAllWords().stream().filter(
+                p -> personName.equals(p.getPersonName())).collect(
+                Collectors.toList());
         if (CollectionUtils.isEmpty(wordList)) {
             return Optional.empty();
         }

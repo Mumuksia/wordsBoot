@@ -33,4 +33,13 @@ public class Word {
 	public String getPersonName() {
 		return personName;
 	}
+
+	@Override
+	public String toString() {
+		return "Word{" +
+			   "value='" + value + '\'' +
+			   ", translation='" + translation + '\'' +
+			   ", personName='" + personName + '\'' +
+			   '}';
+	}
 }
