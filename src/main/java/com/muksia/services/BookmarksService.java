@@ -21,12 +21,17 @@ public class BookmarksService {
 		return bookmarkRepository.findAll();
 	}
 
-	public void addBookmark(final String link, final String description, final String category) {
-		bookmarkRepository.save(new Bookmark(link, description, category));
+	public Bookmark addBookmark(final String link, final String description, final String category) {
+		return bookmarkRepository.save(new Bookmark(link, description, category));
 	}
 
-	public void editBookmark(final String link, final String description, final String category) {
-		bookmarkRepository.save(new Bookmark(link, description, category));
+	public Bookmark editBookmark(final String link, final String description, final String category,
+								 final String bookmarkId) {
+		bookmarkRepository.delete(bookmarkId);
+		return bookmarkRepository.save(new Bookmark(link, description, category));
 	}
 
+	public void setBookmarkRepository(final BookmarkRepository bookmarkRepository) {
+		this.bookmarkRepository = bookmarkRepository;
+	}
 }

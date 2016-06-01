@@ -31,16 +31,25 @@ public class PersistenceService {
     public Optional<Person> gerPerson(final String name){
         return Optional.of(personRepository.findByName(name));
     }
-    
-    public void updatePerson(final Person p) {
-        personRepository.save(p);
-    }
 
-	public void addWord(final Word w) {
-		wordRepository.save(w);
+	public Person updatePerson(final Person p) {
+		personRepository.delete(p);
+		return personRepository.save(p);
+	}
+
+	public Word addWord(final Word w) {
+		return wordRepository.save(w);
 	}
 
 	public List<Word> getAllWords() {
 		return wordRepository.findAll();
+	}
+
+	public void setPersonRepository(final PersonRepository personRepository) {
+		this.personRepository = personRepository;
+	}
+
+	public void setWordRepository(final WordRepository wordRepository) {
+		this.wordRepository = wordRepository;
 	}
 }

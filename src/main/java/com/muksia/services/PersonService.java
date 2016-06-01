@@ -1,11 +1,12 @@
 package com.muksia.services;
 
-import com.muksia.model.Person;
+import java.util.ArrayList;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Optional;
+import com.muksia.model.Person;
 
 /**
  *
@@ -20,9 +21,9 @@ public class PersonService {
     public Optional<Person> getPersonByName(final String name){
         return persistenceService.gerPerson(name);
     }
-    
-    public void addNewPerson(final String name, final String comment){
-        persistenceService.updatePerson(new Person(name, comment, new ArrayList<>()));
+
+    public Person addNewPerson(final String name, final String comment) {
+        return persistenceService.updatePerson(new Person(name, comment, new ArrayList<>()));
     }
 
     public void setPersistenceService(PersistenceService persistenceService) {
