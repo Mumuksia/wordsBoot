@@ -3,6 +3,7 @@
  */
 package com.muksia.controllers;
 
+import com.muksia.model.Bookmark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.muksia.services.BookmarksService;
+import java.util.List;
 
 @RestController
 public class BookmarksController {
@@ -18,8 +20,8 @@ public class BookmarksController {
 	private BookmarksService bookmarksService;
 
 	@RequestMapping("/bookmarks")
-	public String getBookmarks() {
-		return bookmarksService.getAllBookmarks().toString();
+	public List<Bookmark> getBookmarks() {
+		return bookmarksService.getAllBookmarks();
 	}
 
 

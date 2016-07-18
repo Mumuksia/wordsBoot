@@ -25,22 +25,22 @@ public class WordResource {
     DictionaryService dictionaryService;
    
     @RequestMapping("/words")  
-    public JsonObject developer(){
+    public Word developer(){
         dictionaryService.addWord("test", "ttttttrrrraaaa", "test");
-        return Json.createObjectBuilder().add(dictionaryService.getRandomWordForPerson("test").get().getValue(),  2).build();
+        return dictionaryService.getRandomWordForPerson("test").get();
     }
     
 
     @RequestMapping(method =RequestMethod.GET, path = "/words/{person}/{word}/{translation}")
-    public JsonObject addWord(@PathVariable("word") String word, @PathVariable("translation") String translation, @PathVariable("person") String person){
+    public Word addWord(@PathVariable("word") String word, @PathVariable("translation") String translation, @PathVariable("person") String person){
         dictionaryService.addWord(word, translation, person);
-        return Json.createObjectBuilder().add(dictionaryService.getRandomWordForPerson(person).get().getValue(),  2).build();
+        return dictionaryService.getRandomWordForPerson(person).get();
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/word/{personName}")
-    public String getWordForPerson(@PathVariable("personName") String personName) {
+    public Word getWordForPerson(@PathVariable("personName") String personName) {
         Optional<Word> wordOptional = dictionaryService.getRandomWordForPerson(personName);
-        return wordOptional.isPresent() ? wordOptional.get().toString() : "Now words found for " + personName;
+        return wordOptional.isPresent() ? wordOptional.get() : null;
     }
 
 }
