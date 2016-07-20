@@ -12,7 +12,7 @@ import com.muksia.repository.BookmarkRepository;
 
 public class BookmarksServiceTest {
 
-	private BookmarksService bookmarksService = new BookmarksService();
+	private final BookmarksService bookmarksService = new BookmarksService();
 
 	@Test
 	public void testGetAllBookmarks() throws Exception {
@@ -22,8 +22,8 @@ public class BookmarksServiceTest {
 		bookmarksService.setBookmarkRepository(bookmarkRepository);
 
 		List<Bookmark> bookmarkList = bookmarksService.getAllBookmarks();
-		Assert.assertEquals(bookmarkList.size(), 1);
-		Assert.assertEquals(bookmarkList.get(0), mockBookmark());
+		Assert.assertEquals(1, bookmarkList.size());
+		Assert.assertEquals(mockBookmark(), bookmarkList.get(0));
 	}
 
 	@Test
@@ -34,8 +34,10 @@ public class BookmarksServiceTest {
 		EasyMock.replay(bookmarkRepository);
 		bookmarksService.setBookmarkRepository(bookmarkRepository);
 
-		bookmarksService.addBookmark(bookmark.getLink(), bookmark.getDescription(), bookmark.getCategory());
+		final Bookmark bookmarkResult = bookmarksService.addBookmark(bookmark.getLink(), bookmark.getDescription(),
+																	 bookmark.getCategory());
 		EasyMock.verify(bookmarkRepository);
+		Assert.assertEquals(bookmark, bookmarkResult);
 	}
 
 	@Test
@@ -49,9 +51,11 @@ public class BookmarksServiceTest {
 		EasyMock.replay(bookmarkRepository);
 		bookmarksService.setBookmarkRepository(bookmarkRepository);
 
-		bookmarksService.editBookmark(bookmark.getLink(), bookmark.getDescription(), bookmark.getCategory(),
-									  bookmarkId);
+		final Bookmark bookmarkResult = bookmarksService.editBookmark(bookmark.getLink(), bookmark.getDescription(),
+																	  bookmark.getCategory(),
+																	  bookmarkId);
 		EasyMock.verify(bookmarkRepository);
+		Assert.assertEquals(bookmark, bookmarkResult);
 	}
 
 	private List<Bookmark> mockBookmarkResponse() {

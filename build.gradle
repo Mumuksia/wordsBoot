@@ -9,12 +9,14 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath('info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.1.9')
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
+apply plugin: "info.solidsoft.pitest"
 
 jar {
     baseName = 'words'
@@ -47,6 +49,13 @@ dependencies {
 
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+pitest {
+    targetClasses = ['com.muksia.services.*']  //by default "${project.group}.*"
+    pitestVersion = "1.1.9" //not needed when a default PIT version should be used
+    threads = 4
+    outputFormats = ['XML', 'HTML']
 }
 
 

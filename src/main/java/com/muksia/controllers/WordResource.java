@@ -2,9 +2,6 @@ package com.muksia.controllers;
 
 import java.util.Optional;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
