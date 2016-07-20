@@ -3,15 +3,17 @@
  */
 package com.muksia.controllers;
 
-import com.muksia.model.Bookmark;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.muksia.model.Bookmark;
 import com.muksia.services.BookmarksService;
-import java.util.List;
 
 @RestController
 public class BookmarksController {
@@ -19,6 +21,7 @@ public class BookmarksController {
 	@Autowired
 	private BookmarksService bookmarksService;
 
+	@CrossOrigin(origins = "https://wordsboot.herokuapp.com")
 	@RequestMapping("/bookmarks")
 	public List<Bookmark> getBookmarks() {
 		return bookmarksService.getAllBookmarks();
