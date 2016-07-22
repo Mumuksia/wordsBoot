@@ -5,16 +5,26 @@ package com.muksia.model;
 
 import org.springframework.data.annotation.Id;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Bookmark {
 
 	@Id
 	private String id;
+
+	@JsonProperty("id")
+	private String emberId;
 
 	private String link;
 
 	private String description;
 
 	private String category;
+
+
+	public String getEmberId() {
+		return id;
+	}
 
 	public Bookmark(final String link, final String description, final String category) {
 		this.link = link;

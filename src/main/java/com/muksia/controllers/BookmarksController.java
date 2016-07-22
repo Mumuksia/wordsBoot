@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.muksia.model.Bookmark;
 import com.muksia.services.BookmarksService;
 
-@CrossOrigin(origins = "https://wordsboot.herokuapp.com")
+@CrossOrigin
 @RestController
 public class BookmarksController {
 
@@ -24,28 +24,25 @@ public class BookmarksController {
 	private BookmarksService bookmarksService;
 
 	@RequestMapping("/bookmarks")
-	public
 	@ResponseBody
-	List<Bookmark> getBookmarks() {
+	public List<Bookmark> getBookmarks() {
 		return bookmarksService.getAllBookmarks();
 	}
 
 
 	@RequestMapping(method = RequestMethod.GET, path = "/bookmark/{link}/{descrption}/{category}")
-	public
 	@ResponseBody
-	String addbookmark(@PathVariable("link") String link, @PathVariable("descrption") String descrption,
-					   @PathVariable("category") String category) {
+	public String addbookmark(@PathVariable("link") String link, @PathVariable("descrption") String descrption,
+							  @PathVariable("category") String category) {
 		bookmarksService.addBookmark(link, descrption, category);
 		return "ok";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/editBookmark/{link}/{descrption}/{category}/{id}")
-	public
 	@ResponseBody
-	String editBookmark(@PathVariable("link") String link, @PathVariable("descrption") String descrption,
-						@PathVariable("category") String category, @PathVariable("id") String id) {
-		bookmarksService.editBookmark(link, descrption, category, id);
+	public String editBookmark(@PathVariable("link") String link, @PathVariable("description") String description,
+							   @PathVariable("category") String category, @PathVariable("id") String id) {
+		bookmarksService.editBookmark(link, description, category, id);
 		return "ok";
 	}
 }
