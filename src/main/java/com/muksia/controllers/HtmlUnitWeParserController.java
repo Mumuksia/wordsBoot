@@ -16,12 +16,15 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
+import com.gargoylesoftware.htmlunit.html.HtmlTable;
 
 @CrossOrigin
 @RestController
 public class HtmlUnitWeParserController {
 
 	final String urlbase = "https://nya.boplats.se/";
+
+	private final static int SKIPPED_ROWS = 4;
 
 	@RequestMapping("/webParser")
 	@ResponseBody
@@ -45,7 +48,15 @@ public class HtmlUnitWeParserController {
 
 		// Now submit the form by clicking the button and get back the second page.
 		final HtmlPage page2 = button.click();
+		final HtmlTable table = page2.getHtmlElementById("objectlist");
+		StringBuilder sb = new StringBuilder();
 
-		return page2.getAnchorByName("imageitem").toString();
+		for (int i = 4; i < table.getRowCount(); i++) {
+			sb.append(table.getRow(i).getCell(0).getTextContent());
+			sb.append("/n");
+		}
+		return sb.toString();
+
+
 	}
 }
