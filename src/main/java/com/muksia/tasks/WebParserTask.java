@@ -28,6 +28,8 @@ public class WebParserTask {
 		final String result =
 				webParserService.getChangedRowOrEmpty("https://nya.boplats.se/",
 													  "//form[@action='https://nya.boplats.se/sok']", "objectlist", 4);
+
+
 		if (!"".equals(result)) {
 			sendEmail(result);
 		}

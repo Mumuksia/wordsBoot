@@ -29,7 +29,7 @@ public class WebParserService {
 									   final int row) throws
 			IOException {
 		final String currentRow = getHtmlRowFromTable(url, formPath, tableName, row);
-
+		System.out.println(currentRow);
 		if (checkIfRowExists(currentRow)) {
 			return "";
 		}
@@ -41,17 +41,17 @@ public class WebParserService {
 
 	private String getHtmlRowFromTable(final String url, final String formPath, final String tableName,
 									   final int row) throws IOException {
-		final WebClient webClient = getWebClient();
+		final HtmlTable table;
+		try (WebClient webClient = getWebClient()) {
+			final HtmlPage page1 = webClient.getPage(url);
+			webClient.waitForBackgroundJavaScript(60000);
 
-		final HtmlPage page1 = webClient.getPage(url);
-		webClient.waitForBackgroundJavaScript(60000);
+			final HtmlForm form = page1.getFirstByXPath(formPath);
 
-		final HtmlForm form = page1.getFirstByXPath(formPath);
-
-		final HtmlSubmitInput button = form.getInputByName("search");
-		final HtmlPage page2 = button.click();
-		final HtmlTable table = page2.getHtmlElementById(tableName);
-
+			final HtmlSubmitInput button = form.getInputByName("search");
+			HtmlPage page2 = button.click();
+			table = page2.getHtmlElementById(tableName);
+		}
 		return table.getRow(row).getCell(0).getTextContent();
 	}
 
