@@ -17,7 +17,7 @@ import com.muksia.services.PersonService;
  *
  * @author yurzav
  */
-@CrossOrigin(origins = "https://wordsboot.herokuapp.com")
+@CrossOrigin
 @RestController
 public class PersonResource {
     

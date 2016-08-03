@@ -21,10 +21,6 @@ public class BookmarksService {
 		return bookmarkRepository.findAll();
 	}
 
-	public Bookmark addBookmark(final String link, final String description, final String category) {
-		return bookmarkRepository.save(new Bookmark(link, description, category));
-	}
-
 	public Bookmark addBookmark(final Bookmark bookmark) {
 		return bookmarkRepository.save(bookmark);
 	}
@@ -32,12 +28,6 @@ public class BookmarksService {
 	public Bookmark editBookmark(final Bookmark bookmark, final String id) {
 		bookmarkRepository.delete(id);
 		return bookmarkRepository.save(bookmark);
-	}
-
-	public Bookmark editBookmark(final String link, final String description, final String category,
-								 final String bookmarkId) {
-
-		return bookmarkRepository.save(new Bookmark(link, description, category));
 	}
 
 	public void deleteBookmark(final String bookmarkId) {

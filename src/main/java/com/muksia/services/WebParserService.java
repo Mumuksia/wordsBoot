@@ -25,16 +25,18 @@ public class WebParserService {
 	@Autowired
 	BlockatRowRepository blockatRowRepository;
 
+	private WebClient webClient;
+
 	public String getChangedRowOrEmpty(final String url, final String formPath, final String tableName,
 									   final int row) throws
 			IOException {
 		final String currentRow = getHtmlRowFromTable(url, formPath, tableName, row);
 		System.out.println(currentRow);
-		if (checkIfRowExists(currentRow)) {
+		if (blockatRowRepository.checkIfRowExists(currentRow)) {
 			return "";
 		}
 
-		updateDBWithCurrentRow(currentRow);
+		blockatRowRepository.updateDBWithCurrentRow(currentRow);
 
 		return currentRow;
 	}
@@ -53,16 +55,6 @@ public class WebParserService {
 			table = page2.getHtmlElementById(tableName);
 		}
 		return table.getRow(row).getCell(0).getTextContent();
-	}
-
-	private void updateDBWithCurrentRow(final String currentRow) {
-		blockatRowRepository.deleteAll();
-		blockatRowRepository.insert(new Blockat(currentRow));
-	}
-
-	private boolean checkIfRowExists(final String currentRow) {
-		final List<Blockat> dbRows = blockatRowRepository.findAll();
-		return dbRows.stream().anyMatch(p -> p.getRow().equals(currentRow));
 	}
 
 	private WebClient getWebClient() {

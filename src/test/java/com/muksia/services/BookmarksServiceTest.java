@@ -34,8 +34,7 @@ public class BookmarksServiceTest {
 		EasyMock.replay(bookmarkRepository);
 		bookmarksService.setBookmarkRepository(bookmarkRepository);
 
-		final Bookmark bookmarkResult = bookmarksService.addBookmark(bookmark.getLink(), bookmark.getDescription(),
-																	 bookmark.getCategory());
+		final Bookmark bookmarkResult = bookmarksService.addBookmark(bookmark);
 		EasyMock.verify(bookmarkRepository);
 		Assert.assertEquals(bookmark, bookmarkResult);
 	}
@@ -51,11 +50,23 @@ public class BookmarksServiceTest {
 		EasyMock.replay(bookmarkRepository);
 		bookmarksService.setBookmarkRepository(bookmarkRepository);
 
-		final Bookmark bookmarkResult = bookmarksService.editBookmark(bookmark.getLink(), bookmark.getDescription(),
-																	  bookmark.getCategory(),
-																	  bookmarkId);
+		final Bookmark bookmarkResult = bookmarksService.editBookmark(bookmark, bookmarkId);
 		EasyMock.verify(bookmarkRepository);
 		Assert.assertEquals(bookmark, bookmarkResult);
+	}
+
+	@Test
+	public void testDeleteBookmark(){
+		final Bookmark bookmark = mockBookmark();
+		BookmarkRepository bookmarkRepository = EasyMock.mock(BookmarkRepository.class);
+		final String bookmarkId = "id";
+		bookmarkRepository.delete(bookmarkId);
+		EasyMock.expectLastCall().once();
+		EasyMock.replay(bookmarkRepository);
+		bookmarksService.setBookmarkRepository(bookmarkRepository);
+
+		bookmarksService.deleteBookmark(bookmarkId);
+		EasyMock.verify(bookmarkRepository);
 	}
 
 	private List<Bookmark> mockBookmarkResponse() {
