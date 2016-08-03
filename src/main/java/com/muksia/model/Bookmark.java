@@ -26,6 +26,9 @@ public class Bookmark {
 		return id;
 	}
 
+	public Bookmark() {
+	}
+
 	public Bookmark(final String link, final String description, final String category) {
 		this.link = link;
 		this.description = description;

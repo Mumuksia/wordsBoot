@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,31 +19,36 @@ import com.muksia.services.BookmarksService;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/bookmarks")
 public class BookmarksController {
 
 	@Autowired
 	private BookmarksService bookmarksService;
 
-	@RequestMapping("/bookmarks")
+
 	@ResponseBody
+	@RequestMapping(method = RequestMethod.GET)
 	public List<Bookmark> getBookmarks() {
 		return bookmarksService.getAllBookmarks();
 	}
 
-
-	@RequestMapping(method = RequestMethod.GET, path = "/bookmark/{link}/{descrption}/{category}")
+	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
-	public String addbookmark(@PathVariable("link") String link, @PathVariable("descrption") String descrption,
-							  @PathVariable("category") String category) {
-		bookmarksService.addBookmark(link, descrption, category);
-		return "ok";
+	public Bookmark addbookmark(@RequestBody Bookmark bookmark) {
+		return bookmarksService.addBookmark(bookmark);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, path = "/editBookmark/{link}/{descrption}/{category}/{id}")
+
+	@RequestMapping(method = RequestMethod.PUT, path = "/{id}")
 	@ResponseBody
-	public String editBookmark(@PathVariable("link") String link, @PathVariable("description") String description,
-							   @PathVariable("category") String category, @PathVariable("id") String id) {
-		bookmarksService.editBookmark(link, description, category, id);
-		return "ok";
+	public Bookmark editBookmark(@RequestBody Bookmark bookmark, @PathVariable("id") String id) {
+		return bookmarksService.editBookmark(bookmark, id);
+	}
+
+	@RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
+	@ResponseBody
+	public List<Bookmark> deleteBookmark(@PathVariable("id") String id) {
+		bookmarksService.deleteBookmark(id);
+		return getBookmarks();
 	}
 }
