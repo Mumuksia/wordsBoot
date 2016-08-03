@@ -12,7 +12,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.muksia.services.WebParserService;
@@ -23,7 +22,7 @@ public class WebParserTask {
 	@Autowired
 	private WebParserService webParserService;
 
-	@Scheduled(fixedRate = 600000)
+	//	@Scheduled(fixedRate = 600000)
 	public void reportBlocketRow() throws IOException {
 		final String result =
 				webParserService.getChangedRowOrEmpty("https://nya.boplats.se/",
