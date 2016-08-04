@@ -3,13 +3,13 @@
  */
 package com.muksia.repository;
 
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.muksia.model.Blockat;
 
-import java.util.List;
-
-public interface BlockatRowRepository extends MongoRepository<Blockat, String> {
+public interface BoplatsRowRepository extends MongoRepository<Blockat, String> {
 
     default void updateDBWithCurrentRow(final String currentRow){
         deleteAll();
