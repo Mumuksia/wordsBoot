@@ -1,4 +1,4 @@
-package com.muksia.services;
+package com.muksia.services.htmlunitapi;
 
 import java.io.IOException;
 
@@ -10,6 +10,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
+import com.muksia.services.WebClientProvider;
 
 /**
  * User: Muksia

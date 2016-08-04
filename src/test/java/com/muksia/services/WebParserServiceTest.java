@@ -15,6 +15,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.muksia.repository.BoplatsRowRepository;
+import com.muksia.services.htmlunitapi.BoplatsRowFetchService;
 
 public class WebParserServiceTest {
 

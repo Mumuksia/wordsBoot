@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.muksia.repository.BoplatsRowRepository;
+import com.muksia.services.htmlunitapi.BoplatsRowFetchService;
 
 @Service
 public class WebParserService {
