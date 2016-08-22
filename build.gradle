@@ -10,23 +10,39 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath('info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.1.9')
+        classpath('se.transmode.gradle:gradle-docker:1.2')
     }
 }
+
+group = "mumuksia"
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 apply plugin: "info.solidsoft.pitest"
+apply plugin: 'docker'
 
 jar {
     baseName = 'words'
-    version = '0.0.1-SNAPSHOT'
+    version = '0.0.1'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 task stage {
     dependsOn build
+}
+
+task buildDocker(type: Docker, dependsOn: build) {
+    push = true
+    applicationName = jar.baseName
+    dockerfile = file('src/main/java/com/muksia/docker/Dockerfile')
+    doFirst {
+        copy {
+            from jar
+            into stageDir
+        }
+    }
 }
 
 repositories {
@@ -49,6 +65,7 @@ dependencies {
     compile group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
     compile group: 'net.sourceforge.htmlunit', name: 'htmlunit', version: '2.22'
     compile group: 'javax.mail', name: 'mail', version: '1.4.7'
+    compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.7.21'
     compile("org.springframework.boot:spring-boot-starter-mail")
 
     testCompile('org.springframework.boot:spring-boot-starter-test')

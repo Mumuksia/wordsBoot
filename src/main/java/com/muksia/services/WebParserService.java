@@ -5,6 +5,9 @@ package com.muksia.services;
 
 import java.io.IOException;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,8 @@ import com.muksia.services.htmlunitapi.BoplatsRowFetchService;
 
 @Service
 public class WebParserService {
+
+	final static Logger LOGGER = LoggerFactory.getLogger(WebParserService.class);
 
 	@Autowired
 	BoplatsRowRepository boplatsRowRepository;
@@ -23,7 +28,9 @@ public class WebParserService {
 	public String getChangedRowOrEmpty(final String url, final String formPath, final String tableName,
 									   final int row) throws
 			IOException {
-		final String currentRow = boplatsRowFetchService.getHtmlRowFromTable(url, formPath, tableName, row);
+		String currentRow = boplatsRowFetchService.getHtmlRowFromTable(url, formPath, tableName, row);
+		currentRow = StringUtils.trim(currentRow);
+		LOGGER.info(StringUtils.isNoneEmpty(currentRow) ? currentRow.substring(0, 12) : "");
 
 		if (boplatsRowRepository.checkIfRowExists(currentRow)) {
 			return "";

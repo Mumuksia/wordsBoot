@@ -11,7 +11,10 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.muksia.services.WebParserService;
@@ -19,15 +22,16 @@ import com.muksia.services.WebParserService;
 @Component
 public class WebParserTask {
 
+	final static Logger LOGGER = LoggerFactory.getLogger(WebParserTask.class);
+
 	@Autowired
 	private WebParserService webParserService;
 
-	//	@Scheduled(fixedRate = 600000)
+	@Scheduled(fixedRate = 600000)
 	public void reportBlocketRow() throws IOException {
 		final String result =
 				webParserService.getChangedRowOrEmpty("https://nya.boplats.se/",
 													  "//form[@action='https://nya.boplats.se/sok']", "objectlist", 4);
-
 
 		if (!"".equals(result)) {
 			sendEmail(result);
@@ -67,7 +71,7 @@ public class WebParserTask {
 
 			Transport.send(message);
 
-			System.out.println("Mail sent succesfully!");
+			LOGGER.info("Mail sent succesfully!");
 
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
