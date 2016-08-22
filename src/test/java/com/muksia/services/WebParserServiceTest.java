@@ -22,7 +22,7 @@ public class WebParserServiceTest {
 	public static final String URL = "url";
 	public static final String PATH = "path";
 	public static final String TABLE_NAME = "tableName";
-	public static final String SOME_ROW = "someRow";
+	public static final String SOME_ROW = "someRowThatIsBigger";
 	private WebParserService webParserService = new WebParserService();
 
 	@Test
