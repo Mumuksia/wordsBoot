@@ -14,6 +14,8 @@ import javax.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +29,9 @@ public class WebParserTask {
 	@Autowired
 	private WebParserService webParserService;
 
+	@Autowired
+	private MailSender mailSender;
+
 	@Scheduled(fixedRate = 600000)
 	public void reportBlocketRow() throws IOException {
 		final String result =
@@ -34,7 +39,7 @@ public class WebParserTask {
 													  "//form[@action='https://nya.boplats.se/sok']", "objectlist", 4);
 
 		if (!"".equals(result)) {
-			sendEmail(result);
+			sendEmailSpring(result);
 		}
 	}
 
@@ -76,6 +81,20 @@ public class WebParserTask {
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public void sendEmailSpring(final String body) {
+
+		SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+		simpleMailMessage.setTo("yurko.zavada@gmail.com");
+		simpleMailMessage.setSubject("Boplats update");
+		simpleMailMessage.setFrom("mumuksia@mail.com");
+		simpleMailMessage.setText(body);
+
+
+		mailSender.send(simpleMailMessage);
+		LOGGER.info("Spring Mail sent succesfully!");
+
 	}
 
 }
