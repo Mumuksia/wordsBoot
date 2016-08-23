@@ -88,7 +88,7 @@ public class WebParserTask {
 		SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 		simpleMailMessage.setTo("yurko.zavada@gmail.com");
 		simpleMailMessage.setSubject("Boplats update");
-		simpleMailMessage.setFrom("mumuksia@mail.com");
+		simpleMailMessage.setFrom("mumuksiatemp@gmail.com");
 		simpleMailMessage.setText(body);
 
 
