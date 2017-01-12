@@ -3,16 +3,16 @@
  */
 package com.muksia.services;
 
-import java.io.IOException;
-
+import com.muksia.repository.BoplatsRowRepository;
+import com.muksia.services.htmlunitapi.BoplatsRowFetchService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.muksia.repository.BoplatsRowRepository;
-import com.muksia.services.htmlunitapi.BoplatsRowFetchService;
+import java.io.IOException;
+import java.util.List;
 
 @Service
 public class WebParserService {
@@ -47,5 +47,9 @@ public class WebParserService {
 
 	public void setBoplatsRowFetchService(final BoplatsRowFetchService boplatsRowFetchService) {
 		this.boplatsRowFetchService = boplatsRowFetchService;
+	}
+
+	public List<String> getAllChallenges(final String url) throws IOException {
+		return boplatsRowFetchService.getListOfChallenges(url);
 	}
 }

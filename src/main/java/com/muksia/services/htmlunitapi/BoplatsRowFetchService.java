@@ -1,16 +1,14 @@
 package com.muksia.services.htmlunitapi;
 
-import java.io.IOException;
-
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.*;
+import com.muksia.services.WebClientProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
-import com.gargoylesoftware.htmlunit.html.HtmlTable;
-import com.muksia.services.WebClientProvider;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * User: Muksia
@@ -37,5 +35,15 @@ public class BoplatsRowFetchService {
 			table = page2.getHtmlElementById(tableName);
 		}
 		return table.getRow(row).getCell(0).getTextContent();
+	}
+
+	public List<String> getListOfChallenges(final String url) throws IOException {
+		try (WebClient webClient = webClientProvider.getWebClient()) {
+			final HtmlPage page1 = webClient.getPage(url);
+			webClient.waitForBackgroundJavaScript(60000);
+			return page1.getByXPath("//div[contains(@class, 'set_name')]").stream().
+					map(t->((HtmlDivision)t).asText()).collect(Collectors.toList());
+		}
+
 	}
 }

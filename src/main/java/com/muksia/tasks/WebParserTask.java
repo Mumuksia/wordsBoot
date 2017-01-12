@@ -1,16 +1,7 @@
 package com.muksia.tasks;
 
-import java.io.IOException;
-import java.util.Properties;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
+import com.muksia.services.FutbinChallengeHolder;
+import com.muksia.services.WebParserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +10,12 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.muksia.services.WebParserService;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.util.List;
+import java.util.Properties;
 
 @Component
 public class WebParserTask {
@@ -30,9 +26,12 @@ public class WebParserTask {
 	private WebParserService webParserService;
 
 	@Autowired
+	private FutbinChallengeHolder futbinChallengeHolder;
+
+	@Autowired
 	private MailSender mailSender;
 
-	@Scheduled(fixedRate = 600000)
+	//@Scheduled(fixedRate = 600000)
 	public void reportBlocketRow() throws IOException {
 		final String result =
 				webParserService.getChangedRowOrEmpty("https://nya.boplats.se/",
@@ -43,9 +42,14 @@ public class WebParserTask {
 		}
 	}
 
-	//	@Scheduled(fixedRate = 6000000)
-	public void reportTime() throws IOException {
-		sendEmail("test asdasd");
+	@Scheduled(fixedRate = 600000)
+	public void reportNewChallenge() throws IOException {
+		final List<String> result =
+				webParserService.getAllChallenges("https://www.futbin.com/squad-building-challenges");
+
+		if (futbinChallengeHolder.processNewChallenges(result)) {
+			sendEmailSpring(result.toString());
+		}
 	}
 
 	public void sendEmail(final String body) {
@@ -87,7 +91,7 @@ public class WebParserTask {
 
 		SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 		simpleMailMessage.setTo("yurko.zavada@gmail.com");
-		simpleMailMessage.setSubject("Boplats update");
+		simpleMailMessage.setSubject("Futbin update");
 		simpleMailMessage.setFrom("mumuksiatemp@gmail.com");
 		simpleMailMessage.setText(body);
 
