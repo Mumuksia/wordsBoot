@@ -42,7 +42,7 @@ public class WebParserTask {
 		}
 	}
 
-	@Scheduled(fixedRate = 600000)
+	//@Scheduled(fixedRate = 600000)
 	public void reportNewChallenge() throws IOException {
 		final List<String> result =
 				webParserService.getAllChallenges("https://www.futbin.com/squad-building-challenges");
